@@ -179,6 +179,13 @@ module.exports = (robot) ->
     robot.brain.data.rundeck_aliases = _rundeckAliases
     msg.send("The rundeck system alias #{alias} for #{url} has been added to the brain")
 
+  setDefaultAlias = (msg, default_alias) ->
+    if default_alias in _rundeckAliases
+      robot.brain.data.rundeck_default_alias = default_alias
+      msg.send "Default alias set to #{default_alias}"
+    else
+      msg.send "I cannot find an alias called #{default_alias}"
+
   #hubot rundeck projects myrundeck-alias
   robot.respond /rundeck projects (.*)/i, (msg) ->
     if msg.message.user.id is robot.name
@@ -306,4 +313,11 @@ module.exports = (robot) ->
       return
 
     clearAlias msg, msg.match[1], (text) ->
+      msg.send(text)
+      
+  robot.respond /rundeck default alias (.*)/i, (msg) ->
+    if msg.message.user.id is robot.name
+      return
+      
+    setDefaultAlias msg, msg.match[1], (text) ->
       msg.send(text)

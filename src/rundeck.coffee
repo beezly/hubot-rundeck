@@ -180,7 +180,7 @@ module.exports = (robot) ->
     msg.send("The rundeck system alias #{alias} for #{url} has been added to the brain")
 
   setDefaultAlias = (msg, default_alias) ->
-    if default_alias in _rundeckAliases
+    if default_alias of _rundeckAliases
       robot.brain.data.rundeck_default_alias = default_alias
       msg.send "Default alias set to #{default_alias}"
     else
